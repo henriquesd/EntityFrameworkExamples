@@ -1,0 +1,18 @@
+﻿enable-migrations (will create the Migrations folder)
+---------------------------------------------------------------
+add-migration InitialModel
+
+This will create our first migration that represents our initial model, so if you run this migration on a blank
+database it's going to bring that database up to sync with this model.
+But we already have these tables in our database because we started with an existing database. So if you run this
+migration now, you're going to get an exception. To resolve this:
+When you start with an existing database and you want to create your first migration you need to use a switch that
+is called ignore changes; with this switch you tell Entity Framework that whatever you have in your model now, all
+of that exist in your database:
+
+add-migration InitialModel -IgnoreChanges -Force
+
+This will create an empty migration.
+---------------------------------------------------------------
+Update-Database
+

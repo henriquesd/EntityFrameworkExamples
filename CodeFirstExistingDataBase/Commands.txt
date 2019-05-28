@@ -15,4 +15,6 @@ add-migration InitialModel -IgnoreChanges -Force
 This will create an empty migration.
 ---------------------------------------------------------------
 Update-Database
-
+---------------------------------------------------------------
+When you already have a migration with the same name and want to override it, use the force switch:
+add-migration AddCategoriesTable -Force

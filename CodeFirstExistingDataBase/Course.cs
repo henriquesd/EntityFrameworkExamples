@@ -17,10 +17,13 @@ namespace CodeFirstExistingDataBase
 
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
         public Category Category { get; set; }
+
+        // The property below was created and deleted;
+        // public DateTime? DatePublished { get; set; }
 
         public int Level { get; set; }
 

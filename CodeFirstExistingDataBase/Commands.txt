@@ -18,3 +18,13 @@ Update-Database
 ---------------------------------------------------------------
 When you already have a migration with the same name and want to override it, use the force switch:
 add-migration AddCategoriesTable -Force
+---------------------------------------------------------------
+To go back in time to a previous version:
+
+update-database -TargetMigration:MigrationName (don't need to inform the time stamp)
+
+So than we can check out the older version of our application from our source code repository and start our work.
+Whe we finished our job, then to get back to the latest version we check out the latest version from repository,
+go back to Visual Studio, run: "update-database", to bring the database to the latest version.
+
+---------------------------------------------------------------

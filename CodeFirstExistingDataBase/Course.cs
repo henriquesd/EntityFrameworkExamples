@@ -1,10 +1,8 @@
 namespace CodeFirstExistingDataBase
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Courses")]
     public partial class Course
@@ -19,6 +17,8 @@ namespace CodeFirstExistingDataBase
 
         public string Name { get; set; }
 
+        // Can use data annotation \/, or Fluent API on PlutoContext;
+        // [Required]
         public string Description { get; set; }
         // public Category Category { get; set; }
 

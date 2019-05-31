@@ -28,6 +28,9 @@ namespace Queries
             ExampleIQueryable();
             Console.WriteLine("-------------");
 
+            // In web applications stay away from lazy loading because in most cases you need to know
+            // ahead of time what data exactly you need to return to the client;
+            // So in web application it's better to use Either Loading or Explicit Loading;
             ExampleLazyLoading();
             Console.WriteLine("-------------");
 
@@ -38,7 +41,68 @@ namespace Queries
             ExampleEagerLoading();
             Console.WriteLine("-------------");
 
+            // There is also a third way to load related objects, which is called Explicit Loading,
+            // which can be useful in situations where you still need to load a lot of objects,
+            // but your queries are getting too complex;
+            ExampleExplicitLoading();
+            Console.WriteLine("-------------");
+
             Console.ReadLine();
+        }
+
+        private static void ExampleExplicitLoading()
+        {
+            // Here we get the code of Eager Loading, and modified the code to use Explicit Loading;
+
+            // You can run the application and see the queries in SQL Profiler;
+
+            var context = new PlutoContext();
+
+            // The Include was removed, and this is going to simplify my query, because EF is not
+            // going to join the Authors table with the Courses table;
+            // And then we need to explicity load the courses for this author; and this is what we call Explicit Loading;
+            var author = context.Authors.Single(a => a.Id == 1);
+
+            // There are two ways to do Explicit Loading:
+
+            // MSDN way (this only works for single entries - for example, here he have only one author object):
+            context.Entry(author).Collection(a => a.Courses).Load();
+
+            // Other way (Mosh way):
+            context.Courses.Where(c => c.AuthorId == author.Id).Load();
+
+            foreach (var course in author.Courses)
+            {
+                Console.WriteLine("{0}", course.Name);
+            }
+
+            // With the Explicit Loading we can simplify the complex query that is result of too many
+            // includes and too much Eager Loading; Of course, we're going to end up with multiple round
+            // trips to the database, but sometimes this can be more efficient than running a huge query
+            // on the database;
+
+            // But Explicit Loading also has another benefit: we can apply filters to the related objects:
+
+            // MSDN Way:
+            context.Entry(author).Collection(a => a.Courses).Query().Where(c => c.FullPrice == 0).Load();
+
+            // Other way (Mosh way):
+            context.Courses.Where(c => c.AuthorId == author.Id && c.FullPrice == 0).Load();
+
+            // ------------------------------------------------------------------------------
+
+            var authors = context.Authors.ToList();
+
+            // Prefer to use the second approach - the Mosh way - because it's simpler and it's more flexible;
+            // for example, to get the free courses for these authors, we cannot use the MSCN approach, because
+            // if I call context.Entry, I cannot pass the authors object, because the Entry method is used to
+            // reference only a single entry, a single object;
+            //context.Entry()...
+
+            // with the other approach, see:
+            var authorIds = authors.Select(a => a.Id);
+
+            context.Courses.Where(c => authorIds.Contains(c.AuthorId) && c.FullPrice == 0).Load();
         }
 
         private static void ExampleEagerLoading()

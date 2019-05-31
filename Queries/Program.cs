@@ -27,8 +27,51 @@ namespace Queries
             ExampleIQueryable();
             Console.WriteLine("-------------");
 
+            ExampleLazyLoading();
+            Console.WriteLine("-------------");
+
+            // To execute this method, comment the Configuration.LazyLoadingEnabled line on PlutoContext.cs;
+            //ExampleNPlus1Problem();
+            //Console.WriteLine("-------------");
 
             Console.ReadLine();
+        }
+
+        private static void ExampleNPlus1Problem()
+        {
+            // To get N entities and their related entities, we'll end up with N + 1 queries;
+            var context = new PlutoContext();
+
+            // In terms of execution, when we run this line here, and the framework is going to
+            // send a query to the database to get all courses; So this is going to be one query;
+            var courses = context.Courses.ToList();
+
+            foreach (var course in courses)
+            {
+                // For each course, because the Author property is not initialy loaded, here lazy load
+                // kicks in; and for each course Entity Framework is going to run a separate query to get
+                // the author for that course;
+                // So assuming we have N courses we'll end up with N extra queries in this for loop, so N + 1;
+                // You can execute the project, and debug, and see in the SQL Profiler;
+                Console.WriteLine("{0} by {1}", course.Name, course.Author.Name);
+            }
+
+
+        }
+
+        private static void ExampleLazyLoading()
+        {
+            var context = new PlutoContext();
+
+            var course = context.Courses.Single(c => c.Id == 2);
+            // se Tags property on Course class;
+
+            // debug and see on SQL Profiler;
+            // debugging, here, see the watch window, it gives us the illusion that the tags are loaded
+            // immediately ahead of time, not inside the foreach block, because currently we are not
+            // inside the fourth block yet; so de watch window in the debugger can be misleading;
+            foreach (var tag in course.Tags)
+                Console.WriteLine(tag.Name);
         }
 
         private static void ExampleIQueryable()

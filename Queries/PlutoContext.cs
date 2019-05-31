@@ -8,6 +8,9 @@ namespace Queries
         public PlutoContext()
             : base("name=PlutoContext")
         {
+            // This will guarantee that lazy loading is not going to be used in this context;
+            // and whether I use virutal or not it's not going to make any difference;
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public virtual DbSet<Author> Authors { get; set; }

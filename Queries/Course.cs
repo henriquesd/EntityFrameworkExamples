@@ -23,6 +23,9 @@ namespace Queries
 
         public int AuthorId { get; set; }
 
+        // virtual it's the key to enable lazy loading on this property;
+        // you can disabled Lazy Loading, by not declaring your properties as virtual,
+        // or using a configuration on context (see PlutoContext);
         public virtual ICollection<Tag> Tags { get; set; }
 
         public Cover Cover { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Queries
@@ -34,7 +35,54 @@ namespace Queries
             //ExampleNPlus1Problem();
             //Console.WriteLine("-------------");
 
+            ExampleEagerLoading();
+            Console.WriteLine("-------------");
+
             Console.ReadLine();
+        }
+
+        private static void ExampleEagerLoading()
+        {
+            // Eager Loading is the opposite of Lazy Loading;
+
+            var context = new PlutoContext();
+
+            // You can run the application and see the query in SQL Profiler;
+
+            // using the example of ExampleNPlus1Problem method, we can solve this N + 1 issue by
+            // eager loading all the courses and their authors;
+            var courses = context.Courses.Include("Author").ToList(); //* The Course class has a property called Author;
+            // note that ".Include("Author") was added; With this, the query that Entity Framework generates
+            // will join the Courses table with the Authors table to eager load all the courses and their authors;
+            
+            // *... .Include("Author") it's not a good praticle;
+            // The problem with this "magic string" ("Author"), is if tomorrow I renamed this Author property
+            // to something like "Teacher" or "Instructor", then this field is gonna break;
+            foreach (var course in courses)
+            {
+                Console.WriteLine("{0} by {1}", course.Name, course.Author.Name);
+            }
+            Console.WriteLine("-------------");
+
+            // * A better way to do that, it's using with lambda expression:
+            // With this lambda expression, if I rename this Author property to something else like
+            // instructor, because this lambda expression is going to be compiled, we're going to get
+            // a compile time error;
+            var courses2 = context.Courses.Include(c => c.Author).ToList();
+
+            foreach (var course in courses2)
+            {
+                Console.WriteLine("{0} by {1}", course.Name, course.Author.Name);
+            }
+
+
+            //** How to use Eager Loading with Multiple Levels:
+
+            // For single properties:
+            //context.Courses.Include(c => c.Author.Address);
+
+            // For collection properties:
+            //context.Courses.Include(a => a.Tags.Select(t => t.Moderator));
         }
 
         private static void ExampleNPlus1Problem()
@@ -55,8 +103,6 @@ namespace Queries
                 // You can execute the project, and debug, and see in the SQL Profiler;
                 Console.WriteLine("{0} by {1}", course.Name, course.Author.Name);
             }
-
-
         }
 
         private static void ExampleLazyLoading()

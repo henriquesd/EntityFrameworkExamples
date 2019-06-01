@@ -50,8 +50,25 @@ namespace Queries
             ExampleAddingObjects();
             Console.WriteLine("-------------");
 
+            ExampleUpdatingObjects();
+            Console.WriteLine("-------------");
 
             Console.ReadLine();
+        }
+
+        private static void ExampleUpdatingObjects()
+        {
+            var context = new PlutoContext();
+
+            // The Find method we use it to look up objects by their primary key,
+            // it's a short way of writing this: Single(c => c.Id == 4);
+            // and if your records have composite primary keys, you can pass multiple values like this:
+            //var course = context.Courses.Find(4, 1, 2);
+            var course = context.Courses.Find(4);
+            course.Name = "Javascript: Understanding the Weird Parts 2";
+            course.AuthorId = 2;
+
+            context.SaveChanges();
         }
 
         private static void ExampleAddingObjects()

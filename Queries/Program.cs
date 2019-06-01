@@ -53,7 +53,48 @@ namespace Queries
             ExampleUpdatingObjects();
             Console.WriteLine("-------------");
 
+            //ExampleRemovingObjects();
+            //Console.WriteLine("-------------");
+
             Console.ReadLine();
+        }
+
+        private static void ExampleRemovingObjects()
+        {
+            var context = new PlutoContext();
+
+            // With cascade delete;
+            var course = context.Courses.Find(10);
+            context.Courses.Remove(course);
+
+            context.SaveChanges();
+            // can see in SQL Profiler;
+
+            // ------------------------------------
+
+            // Without cascade delete;
+
+            // This will throw an exception (from SQL);
+            //var author = context.Authors.Find(6);
+            //context.Authors.Remove(author);
+
+            // So in this case we need to explicitly delete these courses first, and then delete the author;
+            var author = context.Authors.Include(a => a.Courses).Single(a => a.Id == 7);
+
+            // Use RemoveRang if you want to remove a list of objects - it accepts an IEnumerable object,
+            // so this way you don't have to use a foreach block and call the remove method on each object;
+            context.Courses.RemoveRange(author.Courses);
+            context.Authors.Remove(author);
+
+            context.SaveChanges();
+
+            // can se in SQL Profiler;
+
+            // -----------------------
+
+            // Best Praticles
+            // Prefer local deletes to physical deletes
+            // author.IsDeleted = true;
         }
 
         private static void ExampleUpdatingObjects()

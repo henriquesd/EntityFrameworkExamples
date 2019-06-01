@@ -56,7 +56,38 @@ namespace Queries
             //ExampleRemovingObjects();
             //Console.WriteLine("-------------");
 
+            //ExampleWorkingWithChangeTracker();
+            //Console.WriteLine("-------------");
+
             Console.ReadLine();
+        }
+
+        private static void ExampleWorkingWithChangeTracker()
+        {
+            var context = new PlutoContext();
+
+            // Add an object
+            context.Authors.Add(new Author { Name = "New Author 1" });
+
+            // Update an object
+            var author = context.Authors.Find(6);
+            author.Name = "Updated";
+
+            // Remove an object
+            var another = context.Authors.Find(6);
+            context.Authors.Remove(another);
+
+            var entries = context.ChangeTracker.Entries();
+
+            foreach (var entry in entries)
+            {
+                // Reload this can sometimes be useful if you have edited an entry, but you change your mind and you want
+                // to reload it from the database;
+                // entry.Reload();
+
+                // can debug to edit the values if you want and see the properties;
+                Console.WriteLine(entry.State);
+            }
         }
 
         private static void ExampleRemovingObjects()

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAPI", "FluentAPI\Flue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queries", "Queries\Queries.csproj", "{E00CB303-4C90-41D3-9903-041E11558441}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlutoWeb", "PlutoWeb\PlutoWeb\PlutoWeb.csproj", "{50765755-4217-4052-BC22-73F4557A32A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E00CB303-4C90-41D3-9903-041E11558441}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E00CB303-4C90-41D3-9903-041E11558441}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E00CB303-4C90-41D3-9903-041E11558441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50765755-4217-4052-BC22-73F4557A32A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50765755-4217-4052-BC22-73F4557A32A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50765755-4217-4052-BC22-73F4557A32A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50765755-4217-4052-BC22-73F4557A32A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

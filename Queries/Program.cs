@@ -47,7 +47,93 @@ namespace Queries
             ExampleExplicitLoading();
             Console.WriteLine("-------------");
 
+            ExampleAddingObjects();
+            Console.WriteLine("-------------");
+
+
             Console.ReadLine();
+        }
+
+        private static void ExampleAddingObjects()
+        {
+            var context = new PlutoContext();
+
+            #region initial code
+            var course = new Course
+            {
+                Name = "New Course",
+                Description = "New Description",
+                FullPrice = 19.95f,
+                Level = 1,
+                Author = new Author { Id = 1, Name = "Mosh Hamedani" } // here we're instantiating a new author, because of that it will created
+                                                                       // a new author on database; the change tracker sees this as a new object;
+                                                                       // it has no knowledge that we have an existing author in the database with ID 1 and name "Mosh Hamedani";
+                                                                       // there is two ways to resolve this, see these ways on the code below;
+            };
+
+            //context.Courses.Add(course);
+
+            //context.SaveChanges();
+            #endregion
+           
+
+            // The first approach - WPF applications;
+            var authorsFirstApproach = context.Authors.ToList();
+            var author = context.Authors.Single(a => a.Id == 1);
+
+            var courseFirstApproach = new Course
+            {
+                Name = "New Course 2",
+                Description = "New Description",
+                FullPrice = 19.95f,
+                Level = 1,
+                Author = author
+            };
+
+            //context.Courses.Add(courseFirstApproach);
+            //context.SaveChanges();
+
+            // The second approach - this fits approach better in web applications; (can use in WPF too);
+            var courseSecondApproach = new Course
+            {
+                Name = "New Course 3",
+                Description = "New Description",
+                FullPrice = 19.95f,
+                Level = 1,
+                AuthorId = 1
+            };
+
+            context.Courses.Add(courseSecondApproach);
+            context.SaveChanges();
+
+            // There's also a third way to solve this problem, which is not very common:
+            // for example, if we have an object that is not in our context;
+            // *not recommended;
+            //var author2 = new Author() { Id = 1, Name = "Mosh Hamedani" };
+
+            //context.Authors.Attach(author2);
+
+            //var courseThirdApproach = new Course
+            //{
+            //    Name = "New Course 4",
+            //    Description = "New Description",
+            //    FullPrice = 19.95f,
+            //    Level = 1,
+            //    Author = author2
+            //};
+
+            //context.Courses.Add(courseThirdApproach);
+            //context.SaveChanges();
+
+            // -----------------------
+
+            // Associating Objects
+
+            // Using an existing object in context;
+            //course.Author = context.Authors.Single(a => a.Id == 1);
+
+            // Using foreign key properties;
+            //course.AuthorId = 1;
         }
 
         private static void ExampleExplicitLoading()

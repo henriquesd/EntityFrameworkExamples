@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Queries.Core.Domain;
+using System.Collections.Generic;
 
 namespace Queries
 {

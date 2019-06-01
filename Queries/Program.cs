@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Queries.Core.Domain;
+using Queries.Persistence;
+using System;
 using System.Data.Entity;
 using System.Linq;
 
@@ -65,7 +67,29 @@ namespace Queries
             // But if you're not navigating your application, you can copy and paste your queries from your source code into LINQ Pad, and run them;
             // LINQPad is not limited to link and Entity Framework, we can write any C# code and get immediate feedback.
 
+
+            ExampleUsingRepositoryPattern();
+
             Console.ReadLine();
+        }
+
+        private static void ExampleUsingRepositoryPattern()
+        {
+            // this way (with using) it's just for console application;
+            using (var unitOfWork = new UnitOfWork(new PlutoContext()))
+            {
+                // Example1
+                var course = unitOfWork.Courses.Get(1);
+
+                // Example2
+                var courses = unitOfWork.Courses.GetCoursesWithAuthors(1, 4);
+
+                // Example3
+                var author = unitOfWork.Authors.GetAuthorWithCourses(1);
+                unitOfWork.Courses.RemoveRange(author.Courses);
+                unitOfWork.Authors.Remove(author);
+                unitOfWork.Complete();
+            }
         }
 
         private static void ExampleWorkingWithChangeTracker()

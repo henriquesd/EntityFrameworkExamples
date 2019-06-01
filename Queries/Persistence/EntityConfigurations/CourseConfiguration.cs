@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-namespace Queries.EntityConfigurations
+namespace Queries.Persistence.EntityConfigurations
 {
     public class CourseConfiguration : EntityTypeConfiguration<Course>
     {

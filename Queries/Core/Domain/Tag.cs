@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Queries
+namespace Queries.Core.Domain
 {
-    public class Author
+    public class Tag
     {
-        public Author()
+        public Tag()
         {
             Courses = new HashSet<Course>();
         }

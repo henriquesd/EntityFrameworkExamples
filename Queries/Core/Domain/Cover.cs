@@ -1,4 +1,4 @@
-﻿namespace Queries
+﻿namespace Queries.Core.Domain
 {
     public class Cover
     {

@@ -59,6 +59,12 @@ namespace Queries
             //ExampleWorkingWithChangeTracker();
             //Console.WriteLine("-------------");
 
+            // LINQPad - https://www.linqpad.net/
+            // With LINQPad you can see the exact query that is going to be executed by Entity Framework, similar to SQL Profiler
+            // SQL Profiler is useful if you're navigating your application and you want to see what queries are being executed on SQL Server;
+            // But if you're not navigating your application, you can copy and paste your queries from your source code into LINQ Pad, and run them;
+            // LINQPad is not limited to link and Entity Framework, we can write any C# code and get immediate feedback.
+
             Console.ReadLine();
         }
 
